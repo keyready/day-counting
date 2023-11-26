@@ -8,9 +8,8 @@ import { HStack, VStack } from 'shared/UI/Stack';
 import { classNames } from 'shared/lib/classNames/classNames';
 import { AppLink } from 'shared/UI/AppLink';
 import { ThickArrowRightIcon } from '@radix-ui/react-icons';
-import { usePrivateCounters, usePublicCounters } from 'entities/Counter/api/fetchPublicCountersApi';
+import { usePrivateCounters, usePublicCounters, CounterGrid, CountersList } from 'entities/Counter';
 import { RoutePath } from 'shared/config/routeConfig/routeConfig';
-import { CounterGrid, CountersList } from 'entities/Counter';
 import { Skeleton } from 'primereact/skeleton';
 import classes from './MainPage.module.scss';
 
@@ -25,6 +24,7 @@ const MainPage = () => {
         isLoading: isCountersLoading,
         error: countersLoadingError,
     } = usePublicCounters();
+
     const { data: privateCounters, isLoading: isPrivateCountersLoading } = usePrivateCounters(
         user?.id || -1,
     );

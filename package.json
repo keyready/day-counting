@@ -5,7 +5,7 @@
   "main": ".eslintrc.js",
   "scripts": {
     "init": "npm i concurrently && concurrently -n CLIENT,SERVER -c blue,yellow \"cd ./client && npm i --force\" \"cd ./server && npm i --force\"",
-    "start": "concurrently -n CLIENT,SERVER -c blue,yellow \"cd ./client && npm start\" \"cd ./server && npm run dev\"",
+    "start": "concurrently -n CLIENT,SERVER -c blue,yellow \"cd ./client && npm start\" \"cd ./server && npm start\"",
     "lint:project": "concurrently -n Prettier,ESlint,Stylelint -c blue,yellow,green \"cd ./client && npm run prettier\" \"npm run lint:ts\" \"npm run lint:scss\"",
     "lint:ts": "eslint \"**/*.{ts,tsx}\" --fix",
     "lint:scss": "npx stylelint \"**/*.scss\" --fix"
@@ -14,7 +14,6 @@
   "author": "NexusX Team",
   "license": "ISC",
   "dependencies": {
-    "@radix-ui/react-icons": "^1.3.0",
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
     "concurrently": "^8.2.2",
@@ -25,7 +24,6 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.29.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "prettier": "2.8.8"
+    "eslint-plugin-react-hooks": "^4.6.0"
   }
 }
