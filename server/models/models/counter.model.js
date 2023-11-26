@@ -7,6 +7,7 @@ module.exports = DB.define(
         hostId: DataTypes.INTEGER,
         date: DataTypes.DATE,
         title: DataTypes.STRING,
+        isPrivate: DataTypes.BOOLEAN,
     },
     {
         tableName: 'counter',

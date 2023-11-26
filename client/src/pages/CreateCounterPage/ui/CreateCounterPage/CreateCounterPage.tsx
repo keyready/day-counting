@@ -1,6 +1,10 @@
 import { classNames } from 'shared/lib/classNames/classNames';
 import { Page } from 'widgets/Page/Page';
-import { memo, useEffect } from 'react';
+import { memo, useCallback, useEffect } from 'react';
+import { Divider } from 'primereact/divider';
+import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch/useAppDispatch';
+import { Counter, createCounter } from 'entities/Counter';
+import { CreateCounterForm } from '../CreateCounterForm/CreateCounterForm';
 import classes from './CreateCounterPage.module.scss';
 
 interface CreateCounterPageProps {
@@ -14,9 +18,23 @@ const CreateCounterPage = memo((props: CreateCounterPageProps) => {
         document.title = 'Создание счетчика';
     }, []);
 
+    const dispatch = useAppDispatch();
+
+    const handleCreateSubmit = useCallback(
+        (data: Partial<Counter>) => {
+            dispatch(createCounter(data));
+        },
+        [dispatch],
+    );
+
     return (
         <Page className={classNames(classes.CreateCounterPage, {}, [className])}>
-            <h1>CreateCounterPage</h1>
+            <h1>Отлично!</h1>
+            <h3>У тебя появилась новая дата. Давай сохраним ее)</h3>
+
+            <Divider className={classes.divider} />
+
+            <CreateCounterForm onCreate={handleCreateSubmit} />
         </Page>
     );
 });

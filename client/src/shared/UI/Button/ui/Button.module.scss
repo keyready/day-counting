@@ -2,21 +2,18 @@
     cursor: pointer;
     padding: 5px 15px;
     border-radius: 5px;
-    color: var(--inverted-primary-color);
+    border: none;
+    color: var(--secondary-color);
     background: var(--inverted-bg-color);
     font: var(--font-m);
     transition: 200ms;
 
-    &:hover {
-        background: var(--bg-color);
-    }
-
     &:active {
-        outline: 1px solid var(--primary-color);
+        outline: 1px solid #6FD978;
     }
 
     &:focus {
-        box-shadow: 1px 1px 4px black;
+        box-shadow: 1px 1px 4px #6FD978;
     }
 }
 

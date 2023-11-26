@@ -5,7 +5,6 @@ import { Navbar } from 'widgets/Navbar';
 import { Suspense, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getUserData, UserActions } from 'entities/User';
-import Cookie from 'js-cookie';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch/useAppDispatch';
 
 export const App = () => {
@@ -16,7 +15,7 @@ export const App = () => {
 
     useEffect(() => {
         if (!userData) {
-            const userDataFromCookie = Cookie.get('userdata');
+            const userDataFromCookie = localStorage.getItem('userdata');
             if (userDataFromCookie) {
                 dispatch(UserActions.setUserData(JSON.parse(userDataFromCookie)));
             }
@@ -26,7 +25,7 @@ export const App = () => {
     return (
         <div className={classNames('app', {}, [theme])}>
             <Suspense fallback="">
-                <Navbar />
+                {userData && <Navbar />}
                 <div className="page">
                     <AppRouter />
                 </div>

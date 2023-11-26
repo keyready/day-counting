@@ -8,6 +8,7 @@ export {
 } from './model/selectors/CounterSelectors';
 export { usePrivateCounters } from './api/fetchPrivateCountersApi';
 export { usePublicCounters } from './api/fetchPublicCountersApi';
+export { createCounter } from './model/services/createCounter';
 
 export { CounterCard } from './ui/CounterCard/CounterCard';
 export { CounterGrid } from './ui/CounterGrid/CounterGrid';

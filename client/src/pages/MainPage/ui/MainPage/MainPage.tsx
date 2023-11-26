@@ -87,7 +87,7 @@ const MainPage = () => {
                     {user?.id && privateCounters?.length && (
                         <CountersList counters={privateCounters} />
                     )}
-                    {user?.id && !isPrivateCountersLoading && !privateCounters?.length && (
+                    {!isPrivateCountersLoading && !privateCounters?.length && (
                         <>
                             <Text title="Тут будут твои персональные счетчики, когда ты" />
                             <VStack maxW>
@@ -109,7 +109,10 @@ const MainPage = () => {
                                 <HStack maxW>
                                     <Text title="б) создашь их!" size="small" />
                                     {user?.name && !privateCounters?.length && (
-                                        <AppLink className={classes.link} to="/">
+                                        <AppLink
+                                            className={classes.link}
+                                            to={RoutePath.createcounter}
+                                        >
                                             полетели?)
                                             <ThickArrowRightIcon />
                                         </AppLink>

@@ -15,6 +15,12 @@ export const UserSlice = createSlice({
         setUserData: (state, action: PayloadAction<User>) => {
             state.data = action.payload;
         },
+        logout: (state) => {
+            state.data = undefined;
+            localStorage.removeItem('userdata');
+            // eslint-disable-next-line no-restricted-globals
+            location.reload();
+        },
     },
     // extraReducers: (builder) => {
     //     builder

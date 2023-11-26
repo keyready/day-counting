@@ -3,4 +3,5 @@ export interface Counter {
     hostId: number;
     date: Date;
     title: string;
+    isPrivate: boolean;
 }

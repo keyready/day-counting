@@ -14,7 +14,7 @@ export const CounterCard = memo((props: CounterCardProps) => {
 
     return (
         <div className={classNames(classes.CounterCard, {}, [className])}>
-            <Text title="Обратный отсчет" size="large" />
+            <Text title={counter.title} size="large" />
         </div>
     );
 });

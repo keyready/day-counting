@@ -24,7 +24,10 @@ const startServer = async () => {
 };
 
 app.get('/api/public_counters', async (req, res) => {
-    const counters = CounterModel.findAll({ raw: true });
+    const counters = await CounterModel.findAll({
+        raw: true,
+        where: { isPrivate: false },
+    });
 
     if (!counters.length) return res.status(404).json();
     return res.status(200).json(counters);
@@ -33,11 +36,25 @@ app.get('/api/public_counters', async (req, res) => {
 app.get('/api/private_counters', async (req, res) => {
     const { userId } = req.query;
 
-    const counters = CounterModel.findAll({ raw: true, where: { hostId: userId } });
+    const counters = await CounterModel.findAll({
+        raw: true,
+        where: { hostId: userId },
+    });
+
+    console.log(counters);
 
     if (!counters.length) return res.status(404).json();
     return res.status(200).json(counters);
 });
 
+app.post('/api/create_counter', async (req, res) => {
+    const newCounter = req.body;
+
+    console.log(newCounter);
+
+    const counter = await CounterModel.create(newCounter);
+
+    res.status(200).json();
+});
 
 startServer();
