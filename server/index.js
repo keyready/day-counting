@@ -3,6 +3,7 @@ const port = 5000;
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const { Op } = require('sequelize');
 const { CounterModel } = require('./models');
 const DB = require('./config/db.connect');
 
@@ -24,9 +25,11 @@ const startServer = async () => {
 };
 
 app.get('/api/public_counters', async (req, res) => {
+    const { userId } = req.query;
+
     const counters = await CounterModel.findAll({
         raw: true,
-        where: { isPrivate: false },
+        where: { isPrivate: false, hostId: { [Op.not]: userId } },
     });
 
     if (!counters.length) return res.status(404).json();

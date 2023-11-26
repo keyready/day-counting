@@ -23,7 +23,7 @@ const MainPage = () => {
         data: counters,
         isLoading: isCountersLoading,
         error: countersLoadingError,
-    } = usePublicCounters();
+    } = usePublicCounters(user?.id || -1);
 
     const { data: privateCounters, isLoading: isPrivateCountersLoading } = usePrivateCounters(
         user?.id || -1,

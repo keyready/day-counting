@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { getUIScrollByPath, UIActions } from 'features/UI';
 import { StateSchema } from 'app/providers/StoreProvider';
 import { useThrottle } from 'shared/lib/hooks/useThrottle/useThrottle';
+import { getUserData } from 'entities/User';
 import classes from './Page.module.scss';
 
 interface PageProps {
@@ -20,6 +21,7 @@ export const Page = memo((props: PageProps) => {
     const dispatch = useAppDispatch();
     const { pathname } = useLocation();
     const scrollPosition = useSelector((state: StateSchema) => getUIScrollByPath(state, pathname));
+    const userData = useSelector(getUserData);
 
     const wrapperRef = useRef() as MutableRefObject<HTMLDivElement>;
     const triggerRef = useRef() as MutableRefObject<HTMLDivElement>;
@@ -47,7 +49,13 @@ export const Page = memo((props: PageProps) => {
     return (
         <section
             ref={wrapperRef}
-            className={classNames(classes.Page, {}, [className])}
+            className={classNames(
+                classes.Page,
+                {
+                    [classes.fullSizePage]: !userData?.name,
+                },
+                [className],
+            )}
             onScroll={onScroll}
         >
             {children}
