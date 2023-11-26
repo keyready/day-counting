@@ -1,0 +1,27 @@
+.title {
+    margin-bottom: 20px;
+}
+
+.divider {
+    margin: 20px 0;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.vert_divider {
+    margin: 0 20px;
+    display: block;
+    align-self: stretch;
+}
+
+.todo {
+    align-self: start;
+}
+
+.done {
+    * {
+        text-decoration: line-through;
+    }
+}
