@@ -1,0 +1,8 @@
+.CounterGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    background: rgba(0 0 0 / 30%);
+    padding: 20px;
+    border-radius: 10px;
+}

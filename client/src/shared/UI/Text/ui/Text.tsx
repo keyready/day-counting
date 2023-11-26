@@ -6,6 +6,8 @@ import classes from './Text.module.scss';
 
 interface TextProps {
     className?: string;
+    headerClassname?: string;
+    textClassname?: string;
     title?: string;
     text?: string;
     align?: TextAlign;
@@ -16,6 +18,8 @@ interface TextProps {
 export const Text = memo((props: TextProps) => {
     const {
         className,
+        headerClassname,
+        textClassname,
         title,
         text,
         align = 'justify',
@@ -32,8 +36,12 @@ export const Text = memo((props: TextProps) => {
 
     return (
         <div className={classNames(classes.Text, {}, add)}>
-            {title && <HeaderTag className={classes.title}>{title}</HeaderTag>}
-            {text && <p className={classes.text}>{text}</p>}
+            {title && (
+                <HeaderTag className={classNames(classes.title, {}, [headerClassname])}>
+                    {title}
+                </HeaderTag>
+            )}
+            {text && <p className={classNames(classes.text, {}, [textClassname])}>{text}</p>}
         </div>
     );
 });

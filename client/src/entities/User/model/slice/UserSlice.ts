@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { UserSchema } from '../types/UserSchema';
+import { User } from '../types/User';
 
 const initialState: UserSchema = {
     data: undefined,
@@ -10,7 +11,11 @@ const initialState: UserSchema = {
 export const UserSlice = createSlice({
     name: 'UserSlice',
     initialState,
-    reducers: {},
+    reducers: {
+        setUserData: (state, action: PayloadAction<User>) => {
+            state.data = action.payload;
+        },
+    },
     // extraReducers: (builder) => {
     //     builder
     //         .addCase(fetchUser.pending, (state) => {

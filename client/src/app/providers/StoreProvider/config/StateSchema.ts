@@ -9,10 +9,12 @@ import { AxiosInstance } from 'axios';
 import { UISchema } from 'features/UI';
 import { rtkApi } from 'shared/api/rtkApi';
 import { UserSchema } from 'entities/User';
+import { CounterSchema } from 'entities/Counter';
 
 export interface StateSchema {
     ui: UISchema;
     user: UserSchema;
+    counter: CounterSchema;
     [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>;
 
     // asynchronous reducers
