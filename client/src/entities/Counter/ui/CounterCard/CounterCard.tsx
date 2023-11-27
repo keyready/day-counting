@@ -146,6 +146,7 @@ export const CounterCard = memo((props: CounterCardProps) => {
                     </VStack>
                 </form>
             </Modal>
+
             <HStack align="start" maxW justify="between">
                 <Text title={counter.title} size="large" />
                 <VStack>
@@ -153,7 +154,7 @@ export const CounterCard = memo((props: CounterCardProps) => {
                     {user?.id !== counter.hostId && (
                         <Text text={counter.hostName} align="right" className={classes.w100} />
                     )}
-                    {user?.id === counter.hostId && (
+                    {user?.id === counter.hostId && counter.isPrivate && (
                         <Text
                             onClick={handleShareClick}
                             text="Поделиться"
