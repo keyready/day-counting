@@ -117,6 +117,6 @@ app.post('/api/delete_counter', async (req, res) => {
     return res.status(200).json({ message: 'Счетчик успешно удален' });
 });
 
-app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, '../dist/index.html')));
+app.get('/*', (req, res) => res.sendFile(path.resolve(__dirname, '../dist/index.html')));
 
 startServer();
