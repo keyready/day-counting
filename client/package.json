@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "start": "webpack serve --env port=3000 apiUrl=http://localhost:5000",
-        "build": "webpack --env mode=production apiUrl=http://localhost:5000/",
+        "build": "webpack --env mode=production apiUrl=https://day-counting-production.up.railway.app/",
         "init": "npm install --force",
         "prettier": "npx prettier --write **/*.{js,jsx,ts,tsx}"
     },
