@@ -11,6 +11,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+app.use(express.static(path.resolve(__dirname, '../dist')));
 
 const startServer = async () => {
     try {
@@ -105,5 +106,7 @@ app.post('/api/share_counter', async (req, res) => {
         .status(200)
         .json({ message: 'Твое предложение поделиться счетчиком успешно отправлено' });
 });
+
+app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, '../dist/index.html')));
 
 startServer();
