@@ -34,9 +34,6 @@ app.get('/api/public_counters', async (req, res) => {
 
     if (!counters.length) return res.status(404).json();
 
-    for (let i = 0; i < counters.length; i += 1) {
-        counters[i].hostName = 'Родион';
-    }
     return res.status(200).json(counters);
 });
 
@@ -49,10 +46,6 @@ app.get('/api/private_counters', async (req, res) => {
     });
 
     if (!counters.length) return res.status(404).json();
-
-    for (let i = 0; i < counters.length; i += 1) {
-        counters[i].hostName = 'Родион';
-    }
 
     return res.status(200).json(counters);
 });
@@ -84,6 +77,33 @@ app.post('/api/user_auth', async (req, res) => {
         return res.status(403).json({ message: 'Неверный пароль', status: 2 });
     }
     return res.status(404).json({ message: 'Пользователь с таким логином не найден', status: 1 });
+});
+
+app.post('/api/share_counter', async (req, res) => {
+    const { receiverLogin, counterId } = req.body;
+
+    const candidate = await UserModel.findAll({ raw: true, where: { login: receiverLogin } });
+    if (!candidate.length) {
+        return res.status(404).json({ message: 'Такой пользователь не найден ;(' });
+    }
+
+    const foundCounter = await CounterModel.findAll({
+        raw: true,
+        where: { id: counterId },
+    });
+
+    const { title, date, isPrivate } = foundCounter[0];
+
+    await CounterModel.create({
+        title,
+        date,
+        isPrivate,
+        hostId: candidate[0].id,
+    });
+
+    return res
+        .status(200)
+        .json({ message: 'Твое предложение поделиться счетчиком успешно отправлено' });
 });
 
 startServer();

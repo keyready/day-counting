@@ -9,11 +9,13 @@ export const createCounter = createAsyncThunk<string, Partial<Counter>, ThunkCon
         const { extra, rejectWithValue, getState } = thunkAPI;
 
         const userId = getUserData(getState())?.id;
+        const hostName = getUserData(getState())?.name;
 
         try {
             const response = await extra.api.post<string>('/api/create_counter', {
                 ...counter,
                 hostId: userId,
+                hostName,
             });
 
             if (!response.data) {

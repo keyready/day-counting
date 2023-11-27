@@ -9,6 +9,7 @@ export {
 export { usePrivateCounters } from './api/fetchPrivateCountersApi';
 export { usePublicCounters } from './api/fetchPublicCountersApi';
 export { createCounter } from './model/services/createCounter';
+export { shareCounter } from './model/services/shareCounter';
 
 export { CounterCard } from './ui/CounterCard/CounterCard';
 export { CounterGrid } from './ui/CounterGrid/CounterGrid';

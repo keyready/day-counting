@@ -1,14 +1,17 @@
 import { classNames } from 'shared/lib/classNames/classNames';
 import { FormEvent, memo, useCallback, useEffect, useState } from 'react';
 import { Text } from 'shared/UI/Text';
-import { Counter } from 'entities/Counter';
 import { HStack, VStack } from 'shared/UI/Stack';
 import { useSelector } from 'react-redux';
 import { getUserData } from 'entities/User';
 import { Modal } from 'shared/UI/Modal';
 import { Input } from 'shared/UI/Input';
 import { Button } from 'shared/UI/Button';
+import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch/useAppDispatch';
+import { Counter } from '../../model/types/Counter';
 import classes from './CounterCard.module.scss';
+import { shareCounter } from '../../model/services/shareCounter';
+import { getCounterError } from '../../model/selectors/CounterSelectors';
 
 interface CounterCardProps {
     className?: string;
@@ -24,6 +27,8 @@ export const CounterCard = memo((props: CounterCardProps) => {
     const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
 
     const user = useSelector(getUserData);
+    const shareError = useSelector(getCounterError);
+    const dispatch = useAppDispatch();
 
     function daysUntil(target: Date) {
         const now: Date = new Date();
@@ -125,13 +130,27 @@ export const CounterCard = memo((props: CounterCardProps) => {
         setTimeLeft(daysUntil(counter.date));
     }, [counter.date]);
 
+    useEffect(() => {
+        setShareLogin('');
+    }, [shareError]);
+
     const handleShareClick = useCallback(() => {
         setIsShareOpen(true);
     }, []);
 
-    const handleShareSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-    }, []);
+    const handleShareSubmit = useCallback(
+        async (event: FormEvent<HTMLFormElement>) => {
+            event.preventDefault();
+
+            const result = await dispatch(
+                shareCounter({ counterId: counter.id, receiverLogin: shareLogin }),
+            );
+            if (result.meta.requestStatus === 'fulfilled') {
+                setIsShareOpen(false);
+            }
+        },
+        [counter.id, dispatch, shareLogin],
+    );
 
     return (
         <VStack className={classNames(classes.CounterCard, {}, [className])}>
@@ -145,6 +164,15 @@ export const CounterCard = memo((props: CounterCardProps) => {
                         </Button>
                     </VStack>
                 </form>
+
+                {shareError && (
+                    <Text
+                        headerClassname={classes.shareError}
+                        // @ts-ignore
+                        title={shareError.message}
+                        size="small"
+                    />
+                )}
             </Modal>
 
             <HStack align="start" maxW justify="between">

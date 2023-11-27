@@ -5,6 +5,7 @@ module.exports = DB.define(
     'counter',
     {
         hostId: DataTypes.INTEGER,
+        hostName: DataTypes.STRING,
         date: DataTypes.DATE,
         title: DataTypes.STRING,
         isPrivate: DataTypes.BOOLEAN,
