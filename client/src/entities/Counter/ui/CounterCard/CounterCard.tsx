@@ -1,8 +1,13 @@
 import { classNames } from 'shared/lib/classNames/classNames';
-import { memo, useEffect, useState } from 'react';
+import { FormEvent, memo, useCallback, useEffect, useState } from 'react';
 import { Text } from 'shared/UI/Text';
 import { Counter } from 'entities/Counter';
 import { HStack, VStack } from 'shared/UI/Stack';
+import { useSelector } from 'react-redux';
+import { getUserData } from 'entities/User';
+import { Modal } from 'shared/UI/Modal';
+import { Input } from 'shared/UI/Input';
+import { Button } from 'shared/UI/Button';
 import classes from './CounterCard.module.scss';
 
 interface CounterCardProps {
@@ -15,6 +20,10 @@ export const CounterCard = memo((props: CounterCardProps) => {
     const { className, counter, type = 'grid' } = props;
 
     const [timeLeft, setTimeLeft] = useState<string>('');
+    const [shareLogin, setShareLogin] = useState<string>('');
+    const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
+
+    const user = useSelector(getUserData);
 
     function daysUntil(target: Date) {
         const now: Date = new Date();
@@ -116,13 +125,46 @@ export const CounterCard = memo((props: CounterCardProps) => {
         setTimeLeft(daysUntil(counter.date));
     }, [counter.date]);
 
+    const handleShareClick = useCallback(() => {
+        setIsShareOpen(true);
+    }, []);
+
+    const handleShareSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+    }, []);
+
     return (
         <VStack className={classNames(classes.CounterCard, {}, [className])}>
-            <HStack maxW justify="between">
+            <Modal isOpen={isShareOpen} setIsOpen={setIsShareOpen}>
+                <Text title="Введи логин друга, которому хочешь отправить счетчик" size="small" />
+                <form onSubmit={handleShareSubmit}>
+                    <VStack maxW>
+                        <Input placeholder="Логин..." value={shareLogin} onChange={setShareLogin} />
+                        <Button className={classes.btn} type="submit">
+                            Поделиться!
+                        </Button>
+                    </VStack>
+                </form>
+            </Modal>
+            <HStack align="start" maxW justify="between">
                 <Text title={counter.title} size="large" />
-                <Text size="small" title={new Date(counter.date).toLocaleDateString()} />
+                <VStack>
+                    <Text size="small" title={new Date(counter.date).toLocaleDateString()} />
+                    {user?.id !== counter.hostId && (
+                        <Text text={counter.hostName} align="right" className={classes.w100} />
+                    )}
+                    {user?.id === counter.hostId && (
+                        <Text
+                            onClick={handleShareClick}
+                            text="Поделиться"
+                            align="right"
+                            textClassname={classes.shareText}
+                            className={classes.w100}
+                        />
+                    )}
+                </VStack>
             </HStack>
-            <Text size="small" text={timeLeft} />
+            <Text size="small" title={timeLeft} />
         </VStack>
     );
 });

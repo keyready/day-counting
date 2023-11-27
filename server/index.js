@@ -33,6 +33,10 @@ app.get('/api/public_counters', async (req, res) => {
     });
 
     if (!counters.length) return res.status(404).json();
+
+    for (let i = 0; i < counters.length; i += 1) {
+        counters[i].hostName = 'Родион';
+    }
     return res.status(200).json(counters);
 });
 
@@ -45,6 +49,11 @@ app.get('/api/private_counters', async (req, res) => {
     });
 
     if (!counters.length) return res.status(404).json();
+
+    for (let i = 0; i < counters.length; i += 1) {
+        counters[i].hostName = 'Родион';
+    }
+
     return res.status(200).json(counters);
 });
 
