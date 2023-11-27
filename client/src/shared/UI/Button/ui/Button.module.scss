@@ -72,13 +72,15 @@
     }
 }
 
+.danger {
+    background: lightcoral;
+}
+
 .disabled {
     cursor: not-allowed;
-    background: var(--card-bg);
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid var(--inverted-secondary-color);
 
     &:hover {
-        background: var(--card-bg);
-        outline: 2px solid var(--primary-color);
+        outline: 2px solid var(--inverted-secondary-color);
     }
 }

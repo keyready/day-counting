@@ -11,6 +11,8 @@ import { ThickArrowRightIcon } from '@radix-ui/react-icons';
 import { usePrivateCounters, usePublicCounters, CounterGrid, CountersList } from 'entities/Counter';
 import { RoutePath } from 'shared/config/routeConfig/routeConfig';
 import { Skeleton } from 'primereact/skeleton';
+import { DeviceDetectWrapper } from 'widgets/DeviceDetectWrapper';
+import { useWindowWidth } from 'shared/lib/hooks/useWindowWidth/useWindowWidth';
 import classes from './MainPage.module.scss';
 
 const MainPage = () => {
@@ -18,17 +20,19 @@ const MainPage = () => {
         document.title = 'Обратный отсчет';
     }, []);
 
+    const innerWidth = useWindowWidth();
+
     const user = useSelector(getUserData);
     const {
-        data: counters,
-        isLoading: isCountersLoading,
+        currentData: counters,
+        isFetching: isCountersLoading,
         error: countersLoadingError,
         refetch: refetchPublicCounters,
     } = usePublicCounters(user?.id || -1);
 
     const {
-        data: privateCounters,
-        isLoading: isPrivateCountersLoading,
+        currentData: privateCounters,
+        isFetching: isPrivateCountersLoading,
         refetch: refetchPrivateCounters,
     } = usePrivateCounters(user?.id || -1);
 
@@ -59,9 +63,17 @@ const MainPage = () => {
 
     return (
         <Page>
-            <HStack maxW>
+            <DeviceDetectWrapper maxW step={1200} gap="32">
                 <VStack maxW>
-                    <Text title={user?.name ? `Привет, ${user.name!}!` : 'Привет!'} size="large" />
+                    <HStack maxW justify="between">
+                        <Text
+                            title={user?.name ? `Привет, ${user.name!}!` : 'Привет!'}
+                            size="large"
+                        />
+                        {!user?.name && innerWidth < 1200 && (
+                            <AppLink to={RoutePath.auth}>Кто я?..</AppLink>
+                        )}
+                    </HStack>
                     <Divider className={classes.divider} />
                     <Text title="Это приложение я сделал специально для тебя!" />
                     <Text
@@ -86,9 +98,10 @@ const MainPage = () => {
                         }
                         size="small"
                     />
+                    {innerWidth < 1200 && <Divider className={classes.divider} />}
                 </VStack>
 
-                <Divider className={classes.vert_divider} layout="vertical" />
+                {/* <Divider className={classes.vert_divider} layout="vertical" /> */}
 
                 <VStack maxW className={classes.todo}>
                     {user?.id && isPrivateCountersLoading && generateSkeletons('list')}
@@ -107,7 +120,7 @@ const MainPage = () => {
                                         title="a) авторизуешься"
                                         size="small"
                                     />
-                                    {!user?.name && (
+                                    {!user?.name && innerWidth > 700 && (
                                         <AppLink className={classes.link} to={RoutePath.auth}>
                                             странно, почему ты этого еще не сделал...
                                             <ThickArrowRightIcon />
@@ -130,7 +143,7 @@ const MainPage = () => {
                         </>
                     )}
                 </VStack>
-            </HStack>
+            </DeviceDetectWrapper>
 
             <Divider className={classes.divider} />
 

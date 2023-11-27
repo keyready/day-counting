@@ -34,6 +34,7 @@ export const routerConfig: Record<AppRoutes, AppRoutesProps> = {
     [AppRoutes.CREATECOUNTER]: {
         path: RoutePath.createcounter,
         element: <CreateCounterPage />,
+        authOnly: true,
     },
     [AppRoutes.AUTH]: {
         path: RoutePath.auth,

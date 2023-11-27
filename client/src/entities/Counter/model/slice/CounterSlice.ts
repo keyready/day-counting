@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { createCounter } from '../services/createCounter';
 import { CounterSchema } from '../types/CounterSchema';
 import { shareCounter } from '../services/shareCounter';
+import { deleteCounter } from '../services/deleteCounter';
 
 const initialState: CounterSchema = {
     data: undefined,
@@ -35,6 +36,18 @@ export const CounterSlice = createSlice({
                 state.isLoading = false;
             })
             .addCase(shareCounter.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+
+            .addCase(deleteCounter.pending, (state) => {
+                state.error = undefined;
+                state.isLoading = true;
+            })
+            .addCase(deleteCounter.fulfilled, (state) => {
+                state.isLoading = false;
+            })
+            .addCase(deleteCounter.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
             });

@@ -109,6 +109,14 @@ app.post('/api/share_counter', async (req, res) => {
         .json({ message: 'Твое предложение поделиться счетчиком успешно отправлено' });
 });
 
+app.post('/api/delete_counter', async (req, res) => {
+    const { counterId } = req.body;
+
+    await CounterModel.destroy({ where: { id: counterId } });
+
+    return res.status(200).json({ message: 'Счетчик успешно удален' });
+});
+
 app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, '../dist/index.html')));
 
 startServer();

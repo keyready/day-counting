@@ -1,24 +1,30 @@
 .CounterCard {
-	outline: 2px solid black;
-	padding: 10px;
-	width: 100%;
-	border-radius: 10px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    outline: 2px solid black;
 }
 
 .w100 {
-	width: 100%;
+    width: 100%;
 }
 
 .shareText {
-	text-decoration: underline;
-	cursor: pointer;
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 .btn {
-	align-self: end;
+    align-self: end;
 }
 
 .shareError {
-	margin-top: 20px !important;
-	color: red !important;
+    color: red !important;
+    margin-top: 20px !important;
+}
+
+.headerOverflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

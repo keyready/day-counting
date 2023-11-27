@@ -6,10 +6,11 @@ import { Input } from 'shared/UI/Input';
 import { Text } from 'shared/UI/Text';
 import { Button } from 'shared/UI/Button';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch/useAppDispatch';
-import { getUserError, userAuth } from 'entities/User';
+import { getUserError, getUserIsLoading, userAuth } from 'entities/User';
 import { useNavigate } from 'react-router-dom';
 import { RoutePath } from 'shared/config/routeConfig/routeConfig';
 import { useSelector } from 'react-redux';
+import { DeviceDetectWrapper } from 'widgets/DeviceDetectWrapper';
 import classes from './AuthPage.module.scss';
 
 interface AuthPageProps {
@@ -27,6 +28,7 @@ const AuthPage = memo((props: AuthPageProps) => {
     const navigate = useNavigate();
 
     const authError = useSelector(getUserError);
+    const isAuthProcessing = useSelector(getUserIsLoading);
 
     const handleAuthClick = useCallback(
         async (event: FormEvent<HTMLFormElement>) => {
@@ -48,7 +50,7 @@ const AuthPage = memo((props: AuthPageProps) => {
     return (
         <Page className={classNames(classes.AuthPage, {}, [className])}>
             <VStack maxW justify="start" align="center">
-                <HStack maxW justify="center" align="start" gap="32">
+                <DeviceDetectWrapper maxW justify="center" align="start" gap="32">
                     <Text title="Здесь ты можешь авторизоваться или зарегистрироваться" />
                     <VStack maxW justify="start">
                         <Text title="Все очень просто, но..." size="small" />
@@ -60,7 +62,7 @@ const AuthPage = memo((props: AuthPageProps) => {
                             }
                         />
                     </VStack>
-                </HStack>
+                </DeviceDetectWrapper>
 
                 <form onSubmit={handleAuthClick} className={classes.form}>
                     <VStack maxW gap="8">
@@ -84,11 +86,16 @@ const AuthPage = memo((props: AuthPageProps) => {
                                 />
                                 <Input
                                     required
+                                    type="password"
                                     value={password}
                                     onChange={setPassword}
                                     placeholder="Пароль"
                                 />
-                                <Button type="submit" className={classes.btn}>
+                                <Button
+                                    disabled={isAuthProcessing || !login || !password}
+                                    type="submit"
+                                    className={classes.btn}
+                                >
                                     Войти
                                 </Button>
                             </>
@@ -103,7 +110,11 @@ const AuthPage = memo((props: AuthPageProps) => {
                                     onChange={setName}
                                     placeholder="Тебя зовут..."
                                 />
-                                <Button type="submit" className={classes.btn}>
+                                <Button
+                                    disabled={isAuthProcessing || !name}
+                                    type="submit"
+                                    className={classes.btn}
+                                >
                                     Продолжить
                                 </Button>
                             </>

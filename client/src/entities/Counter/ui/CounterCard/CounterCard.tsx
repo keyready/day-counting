@@ -8,9 +8,11 @@ import { Modal } from 'shared/UI/Modal';
 import { Input } from 'shared/UI/Input';
 import { Button } from 'shared/UI/Button';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch/useAppDispatch';
+import { useWindowWidth } from 'shared/lib/hooks/useWindowWidth/useWindowWidth';
 import { Counter } from '../../model/types/Counter';
 import classes from './CounterCard.module.scss';
 import { shareCounter } from '../../model/services/shareCounter';
+import { deleteCounter } from '../../model/services/deleteCounter';
 import { getCounterError } from '../../model/selectors/CounterSelectors';
 
 interface CounterCardProps {
@@ -25,10 +27,13 @@ export const CounterCard = memo((props: CounterCardProps) => {
     const [timeLeft, setTimeLeft] = useState<string>('');
     const [shareLogin, setShareLogin] = useState<string>('');
     const [isShareOpen, setIsShareOpen] = useState<boolean>(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
     const user = useSelector(getUserData);
     const shareError = useSelector(getCounterError);
     const dispatch = useAppDispatch();
+
+    const innerWidth = useWindowWidth();
 
     function daysUntil(target: Date) {
         const now: Date = new Date();
@@ -152,6 +157,18 @@ export const CounterCard = memo((props: CounterCardProps) => {
         [counter.id, dispatch, shareLogin],
     );
 
+    const handleDeleteClick = useCallback(() => {
+        if (user?.id === counter.hostId) setIsDeleteModalOpen(true);
+    }, [counter.hostId, user?.id]);
+
+    const handleDeleteSubmit = useCallback(async () => {
+        const result = await dispatch(deleteCounter(counter.id));
+
+        if (result.meta.requestStatus === 'fulfilled') {
+            setIsDeleteModalOpen(false);
+        }
+    }, [counter.id, dispatch]);
+
     return (
         <VStack className={classNames(classes.CounterCard, {}, [className])}>
             <Modal isOpen={isShareOpen} setIsOpen={setIsShareOpen}>
@@ -175,8 +192,26 @@ export const CounterCard = memo((props: CounterCardProps) => {
                 )}
             </Modal>
 
+            <Modal isOpen={isDeleteModalOpen} setIsOpen={setIsDeleteModalOpen}>
+                <VStack maxW gap="16">
+                    <Text title="Вы действительно хотите удалить счетчик?" size="small" />
+                    <HStack maxW justify="center" gap="32">
+                        <Button onClick={handleDeleteSubmit} variant="danger">
+                            Да!
+                        </Button>
+                        <Button onClick={() => setIsDeleteModalOpen(false)}>Нет...</Button>
+                    </HStack>
+                </VStack>
+            </Modal>
+
             <HStack align="start" maxW justify="between">
-                <Text title={counter.title} size="large" />
+                <Text
+                    style={{ maxWidth: `${innerWidth / 2 - 15}px` }}
+                    headerClassname={classes.headerOverflow}
+                    onClick={handleDeleteClick}
+                    title={counter.title}
+                    size="large"
+                />
                 <VStack>
                     <Text size="small" title={new Date(counter.date).toLocaleDateString()} />
                     {user?.id !== counter.hostId && (

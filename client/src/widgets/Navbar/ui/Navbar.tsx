@@ -18,8 +18,10 @@ export const Navbar = memo(({ className }: NavbarProps) => {
     }, [dispatch]);
 
     return (
-        <HStack maxW justify="between" className={classNames(classes.Navbar, {}, [className])}>
-            <Button onClick={handleLogout}>Выйти</Button>
+        <HStack maxW justify="end" className={classNames(classes.Navbar, {}, [className])}>
+            <Button variant="danger" onClick={handleLogout}>
+                Выйти
+            </Button>
         </HStack>
     );
 });

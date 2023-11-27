@@ -1,5 +1,5 @@
 import { classNames } from 'shared/lib/classNames/classNames';
-import { memo } from 'react';
+import { CSSProperties, memo } from 'react';
 import { alignsMapper, headerTagMapper, sizeMapper, variantsMapper } from '../types/TextMappers';
 import { TextAlign, TextSize, TextVariant } from '../types/Text.types';
 import classes from './Text.module.scss';
@@ -14,6 +14,7 @@ interface TextProps {
     size?: TextSize;
     variant?: TextVariant;
     onClick?: () => void;
+    style?: CSSProperties;
 }
 
 export const Text = memo((props: TextProps) => {
@@ -27,6 +28,7 @@ export const Text = memo((props: TextProps) => {
         size = 'medium',
         variant = 'primary',
         onClick,
+        style,
     } = props;
 
     const variantsClasses = variantsMapper[variant];
@@ -37,7 +39,7 @@ export const Text = memo((props: TextProps) => {
     const add = [className, variantsClasses, alignsClasses, sizeClasses];
 
     return (
-        <div onClick={onClick} className={classNames(classes.Text, {}, add)}>
+        <div style={style} onClick={onClick} className={classNames(classes.Text, {}, add)}>
             {title && (
                 <HeaderTag className={classNames(classes.title, {}, [headerClassname])}>
                     {title}
