@@ -19,7 +19,9 @@ const startServer = async () => {
         await DB.sync({ alter: true });
         // await DB.sync({ force: true });
 
-        await app.listen(port, () => console.log(`Сервер запущен на http://localhost:${port}`));
+        await app.listen(process.env.PORT, () =>
+            console.log(`Сервер запущен на http://localhost:${process.env.PORT}`),
+        );
     } catch (e) {
         console.log(e);
     }
