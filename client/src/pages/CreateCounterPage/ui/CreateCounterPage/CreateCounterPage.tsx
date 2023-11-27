@@ -4,6 +4,8 @@ import { memo, useCallback, useEffect } from 'react';
 import { Divider } from 'primereact/divider';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch/useAppDispatch';
 import { Counter, createCounter } from 'entities/Counter';
+import { useNavigate } from 'react-router-dom';
+import { RoutePath } from 'shared/config/routeConfig/routeConfig';
 import { CreateCounterForm } from '../CreateCounterForm/CreateCounterForm';
 import classes from './CreateCounterPage.module.scss';
 
@@ -19,12 +21,17 @@ const CreateCounterPage = memo((props: CreateCounterPageProps) => {
     }, []);
 
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const handleCreateSubmit = useCallback(
-        (data: Partial<Counter>) => {
-            dispatch(createCounter(data));
+        async (data: Partial<Counter>) => {
+            const result = await dispatch(createCounter(data));
+
+            if (result.meta.requestStatus === 'fulfilled') {
+                navigate(RoutePath.main);
+            }
         },
-        [dispatch],
+        [dispatch, navigate],
     );
 
     return (

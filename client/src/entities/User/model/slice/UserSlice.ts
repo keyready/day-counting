@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { userAuth } from '../services/userAuth';
 import { UserSchema } from '../types/UserSchema';
 import { User } from '../types/User';
 
@@ -22,21 +23,22 @@ export const UserSlice = createSlice({
             location.reload();
         },
     },
-    // extraReducers: (builder) => {
-    //     builder
-    //         .addCase(fetchUser.pending, (state) => {
-    //             state.error = undefined;
-    //             state.isLoading = true;
-    //         })
-    //         .addCase(fetchUser.fulfilled, (state, action: PayloadAction<any>) => {
-    //             state.isLoading = false;
-    //             state.data = action.payload;
-    //         })
-    //         .addCase(fetchUser.rejected, (state, action) => {
-    //             state.isLoading = false;
-    //             state.error = action.payload;
-    //         });
-    // },
+    extraReducers: (builder) => {
+        builder
+            .addCase(userAuth.pending, (state) => {
+                state.error = undefined;
+                state.isLoading = true;
+            })
+            .addCase(userAuth.fulfilled, (state, action: PayloadAction<any>) => {
+                state.isLoading = false;
+                state.data = action.payload;
+                localStorage.setItem('userdata', JSON.stringify(action.payload));
+            })
+            .addCase(userAuth.rejected, (state, action: PayloadAction<any>) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            });
+    },
 });
 
 export const { actions: UserActions } = UserSlice;

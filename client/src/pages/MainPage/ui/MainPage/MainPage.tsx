@@ -23,11 +23,19 @@ const MainPage = () => {
         data: counters,
         isLoading: isCountersLoading,
         error: countersLoadingError,
+        refetch: refetchPublicCounters,
     } = usePublicCounters(user?.id || -1);
 
-    const { data: privateCounters, isLoading: isPrivateCountersLoading } = usePrivateCounters(
-        user?.id || -1,
-    );
+    const {
+        data: privateCounters,
+        isLoading: isPrivateCountersLoading,
+        refetch: refetchPrivateCounters,
+    } = usePrivateCounters(user?.id || -1);
+
+    useEffect(() => {
+        refetchPrivateCounters();
+        refetchPublicCounters();
+    }, [refetchPrivateCounters, refetchPublicCounters]);
 
     const generateSkeletons = useCallback((type: 'list' | 'grid' = 'grid') => {
         if (type === 'list') {
@@ -100,7 +108,7 @@ const MainPage = () => {
                                         size="small"
                                     />
                                     {!user?.name && (
-                                        <AppLink className={classes.link} to="/">
+                                        <AppLink className={classes.link} to={RoutePath.auth}>
                                             странно, почему ты этого еще не сделал...
                                             <ThickArrowRightIcon />
                                         </AppLink>
@@ -135,12 +143,8 @@ const MainPage = () => {
                         <AppLink to={RoutePath.createcounter}>Будешь первым?</AppLink>
                     </>
                 )}
-                {countersLoadingError && (
-                    <Text
-                        size="large"
-                        // @ts-ignore
-                        text={`Что-то пошло не так: ${countersLoadingError.status}`}
-                    />
+                {!counters?.length && (
+                    <Text size="large" text="Никто ничего не ждет... Будешь первым?" />
                 )}
                 {isCountersLoading && generateSkeletons()}
             </VStack>

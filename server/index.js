@@ -4,7 +4,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const { Op } = require('sequelize');
-const { CounterModel } = require('./models');
+const { CounterModel, UserModel } = require('./models');
 const DB = require('./config/db.connect');
 
 const app = express();
@@ -44,8 +44,6 @@ app.get('/api/private_counters', async (req, res) => {
         where: { hostId: userId },
     });
 
-    console.log(counters);
-
     if (!counters.length) return res.status(404).json();
     return res.status(200).json(counters);
 });
@@ -53,11 +51,30 @@ app.get('/api/private_counters', async (req, res) => {
 app.post('/api/create_counter', async (req, res) => {
     const newCounter = req.body;
 
-    console.log(newCounter);
-
     const counter = await CounterModel.create(newCounter);
 
-    res.status(200).json();
+    res.status(200).json(counter);
+});
+
+app.post('/api/user_auth', async (req, res) => {
+    const { name, login, password } = req.body;
+
+    if (name) {
+        const user = await UserModel.create({ name, login, password });
+        return res.status(200).json(user);
+    }
+
+    const candidate = await UserModel.findAll({ raw: true, where: { login } });
+
+    if (candidate[0]) {
+        if (candidate[0].password === password)
+            return res.status(200).json({
+                ...candidate[0],
+                password: '',
+            });
+        return res.status(403).json({ message: 'Неверный пароль', status: 2 });
+    }
+    return res.status(404).json({ message: 'Пользователь с таким логином не найден', status: 1 });
 });
 
 startServer();
