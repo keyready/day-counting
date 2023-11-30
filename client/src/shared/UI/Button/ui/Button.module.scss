@@ -76,6 +76,12 @@
     background: lightcoral;
 }
 
+.inline {
+    background: transparent;
+    outline: none;
+    border: none;
+}
+
 .disabled {
     cursor: not-allowed;
     outline: 2px solid var(--inverted-secondary-color);

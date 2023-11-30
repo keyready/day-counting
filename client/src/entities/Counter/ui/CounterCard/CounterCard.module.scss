@@ -28,3 +28,11 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.iconButton {
+    transition: 200ms;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}

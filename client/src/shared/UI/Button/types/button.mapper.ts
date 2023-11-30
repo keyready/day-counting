@@ -9,4 +9,5 @@ export const variantsMapper: Record<buttonVariants, string> = {
     success: classes.success,
     warning: classes.warning,
     outlined: classes.outlined,
+    inline: classes.inline,
 };

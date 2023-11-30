@@ -5,4 +5,5 @@ export type buttonVariants =
     | 'danger'
     | 'success'
     | 'warning'
-    | 'outlined';
+    | 'outlined'
+    | 'inline';
