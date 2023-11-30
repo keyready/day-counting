@@ -4,8 +4,8 @@
   "description": "Решение второго трека на хакатоне Hack&Change 2023 от команды NexusX Team",
   "main": ".eslintrc.js",
   "scripts": {
-    "init": "npm i concurrently && concurrently -n CLIENT,SERVER -c blue,yellow \"cd ./client && npm i --force\" \"cd ./server && npm i --force\"",
-    "start": "concurrently -n CLIENT,SERVER -c blue,yellow \"cd ./client && npm start\" \"cd ./server && npm start\"",
+    "init": "npm i concurrently && concurrently -n CLIENT,SERVER,ADMIN -c blue,yellow,cyan \"cd ./client && npm i --force\" \"cd ./server && npm i --force\" \"cd ./admin && npm run init\"",
+    "start": "concurrently -n CLIENT,SERVER,ADMIN -c blue,yellow,cyan \"cd ./client && npm start\" \"cd ./server && npm start\" \"cd ./admin && npm start\"",
     "lint:project": "concurrently -n Prettier,ESlint,Stylelint -c blue,yellow,green \"cd ./client && npm run prettier\" \"npm run lint:ts\" \"npm run lint:scss\"",
     "lint:ts": "eslint \"**/*.{ts,tsx}\" --fix",
     "lint:scss": "npx stylelint \"**/*.scss\" --fix"
@@ -14,6 +14,8 @@
   "author": "NexusX Team",
   "license": "ISC",
   "dependencies": {
+    "@adminjs/express": "^6.1.0",
+    "@adminjs/sequelize": "^4.0.0",
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
     "concurrently": "^8.2.2",
