@@ -29,10 +29,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
 
-    &:hover {
-        color: #bc0101 !important;
-    }
+.onDeleteHeaderHover:hover {
+    color: #bc0101 !important;
 }
 
 .iconButton {

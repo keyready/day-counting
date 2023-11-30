@@ -144,7 +144,9 @@ export const CounterCard = memo((props: CounterCardProps) => {
             <HStack align="start" maxW justify="between">
                 <Text
                     style={{ maxWidth: `${innerWidth / 2 - 15}px` }}
-                    headerClassname={classes.headerOverflow}
+                    headerClassname={classNames(classes.headerOverflow, {
+                        [classes.onDeleteHeaderHover]: user?.id === counter.hostId,
+                    })}
                     onClick={handleDeleteClick}
                     title={counter.title}
                     size="large"
