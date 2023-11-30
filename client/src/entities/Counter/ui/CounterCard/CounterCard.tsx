@@ -90,7 +90,7 @@ export const CounterCard = memo((props: CounterCardProps) => {
                       daysLeft % 10 <= 4 &&
                       (daysLeft % 100 < 10 || daysLeft % 100 >= 20)
                     ? `${daysLeft} дня`
-                    : `${yearsLeft} дней`,
+                    : `${daysLeft} дней`,
             );
 
         if (hLeft > 0)

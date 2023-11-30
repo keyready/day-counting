@@ -93,15 +93,13 @@ const MainPage = () => {
                     <Divider className={classes.divider} />
                     <Text
                         title={
-                            'Ты уж извини, что дизайн такой скромный,' +
-                            ' на большее фантазии не хватило...'
+                            'Ты уж извини, что дизайн такой скромный, ' +
+                            'на большее фантазии не хватило...'
                         }
                         size="small"
                     />
                     {innerWidth < 1200 && <Divider className={classes.divider} />}
                 </VStack>
-
-                {/* <Divider className={classes.vert_divider} layout="vertical" /> */}
 
                 <VStack maxW className={classes.todo}>
                     {user?.id && isPrivateCountersLoading && generateSkeletons('list')}
