@@ -7,7 +7,7 @@ export const getLeftTime = (target: Date, type: LeftTimeDisplayType = 'calendar'
     let diffInMilliseconds = targetDate.getTime() - now.getTime();
 
     if (type === 'days') {
-        const daysLeft = ~~(diffInMilliseconds / 86400000);
+        const daysLeft = Number((diffInMilliseconds / 86400000).toFixed(1));
 
         return daysLeft % 10 === 1 && daysLeft % 100 !== 11
             ? `${daysLeft} день`

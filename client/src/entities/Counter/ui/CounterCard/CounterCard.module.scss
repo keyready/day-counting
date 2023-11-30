@@ -19,20 +19,26 @@
 }
 
 .shareError {
-    color: red !important;
+    color: #bc0101 !important;
     margin-top: 20px !important;
 }
 
 .headerOverflow {
+    cursor: pointer;
+    transition: 150ms;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    &:hover {
+        color: #bc0101 !important;
+    }
 }
 
 .iconButton {
-    transition: 200ms;
+    transition: 500ms;
 
     &:hover {
-        transform: scale(1.1);
+        transform: rotate(180deg);
     }
 }

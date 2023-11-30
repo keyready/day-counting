@@ -38,6 +38,7 @@ module.exports = {
         'no-shadow': 'off',
         'no-undef': 'off',
         'no-bitwise': 'off',
+        'no-nested-ternary': 'off',
         'react/jsx-props-no-spreading': 'off',
         'no-return-await': 'warn',
         'no-unused-vars': 'warn',
